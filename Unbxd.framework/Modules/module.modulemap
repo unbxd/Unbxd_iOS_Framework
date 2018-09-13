@@ -1,0 +1,11 @@
+framework module Unbxd {
+  umbrella header "Unbxd.h"
+
+  export *
+  module * { export * }
+}
+
+module Unbxd.Swift {
+    header "Unbxd-Swift.h"
+    requires objc
+}
