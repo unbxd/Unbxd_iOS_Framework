@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BASE_SEARCH_URL</key>
+	<string>https://search.unbxd.io/API_KEY/SITE_KEY/search?</string>
+	<key>BASE_BROWSE_URL</key>
+	<string>https://search.unbxd.io/API_KEY/SITE_KEY/category?</string>
+	<key>BASE_AUTOSUGGEST_URL</key>
+	<string>https://search.unbxd.io/API_KEY/SITE_KEY/autosuggest?</string>
+	<key>BASE_ANALYTICS_URL</key>
+	<string>https://tracker.unbxdapi.com/v2/1p.jpg?</string>
+	<key>BASE_RECOMMENDATION_URL</key>
+	<string>https://recommendations.unbxdapi.com/v1.0/API_KEY/SITE_KEY/</string>
+    <key>BASE_RECOMMENDATION_V2_URL</key>
+    <string>https://recommendations.unbxd.io/v2.0/API_KEY/SITE_KEY/items?</string>
+	<key>BASE_PRODUCTDETAILS_URL</key>
+	<string>https://search.unbxd.io/sites/SITE_KEY/products/</string>
+</dict>
+</plist>
