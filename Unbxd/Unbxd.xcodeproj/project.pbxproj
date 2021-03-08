@@ -68,6 +68,7 @@
 		CD64D99D237F90A100685FC1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD64D98F237F8F3400685FC1 /* LaunchScreen.storyboard */; };
 		CD64D99E237F90A800685FC1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD64D991237F8F3400685FC1 /* Main.storyboard */; };
 		CD64D99F237F90AD00685FC1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD64D993237F8F3400685FC1 /* AppDelegate.swift */; };
+		CDD49BA925F512CA00C1110D /* RecommendationRequestBuilderV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD49BA825F512CA00C1110D /* RecommendationRequestBuilderV2.swift */; };
 		CDD5B649241D08DB0076672A /* NetworkCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD5B648241D08DB0076672A /* NetworkCheck.swift */; };
 /* End PBXBuildFile section */
 
@@ -152,6 +153,7 @@
 		CD64D992237F8F3400685FC1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CD64D993237F8F3400685FC1 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CD64D994237F8F3400685FC1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CDD49BA825F512CA00C1110D /* RecommendationRequestBuilderV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationRequestBuilderV2.swift; sourceTree = "<group>"; };
 		CDD5B648241D08DB0076672A /* NetworkCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCheck.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -220,6 +222,7 @@
 				50C63A3620729C020000FF04 /* AutoSuggestRequestBuilder.swift */,
 				50258F552075094F004A0DEB /* AnalyticsRequestBuilder.swift */,
 				50AB7D792081D782004AB63E /* RecommendationRequestBuilder.swift */,
+				CDD49BA825F512CA00C1110D /* RecommendationRequestBuilderV2.swift */,
 				5068570F208B2441004CD315 /* BrowseRequestBuilder.swift */,
 				50251F1220DEC8FA004F2040 /* SearchProductRequestBuilder.swift */,
 				50922981206A6D4200EF11A8 /* Constants.swift */,
@@ -504,6 +507,7 @@
 				50922984206A775B00EF11A8 /* SearchRequestBuilder.swift in Sources */,
 				504480BF2123F8670001512F /* UseIdHandler.swift in Sources */,
 				CDD5B649241D08DB0076672A /* NetworkCheck.swift in Sources */,
+				CDD49BA925F512CA00C1110D /* RecommendationRequestBuilderV2.swift in Sources */,
 				504F093B2062CDDF009765E6 /* Client.swift in Sources */,
 				5092297A206A591900EF11A8 /* Configuration.swift in Sources */,
 			);

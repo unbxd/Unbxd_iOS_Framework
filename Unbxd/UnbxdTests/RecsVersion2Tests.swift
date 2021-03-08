@@ -38,7 +38,7 @@ class RecsVersion2Tests: XCTestCase {
     func testHomePageRecommendations() {
         let expect = expectation(description: "Home Page Recommendation API Call")
         
-        let query = HomePageTopSellersRecomendations(uid: kUid, version: .Version2)
+        let query = RecommendationsV2(pageType: .Home, uid: kUid)
         
         client?.recommend(recommendationQuery: query, completion: { (response, httpResponse, err) in
             guard let response = httpResponse as? HTTPURLResponse else {
@@ -63,9 +63,8 @@ class RecsVersion2Tests: XCTestCase {
     func testCategoryRecommendations() {
         let expect = expectation(description: "Category Page Recommendation API Call")
         
-        
-        let query = CategoryTopSellersRecomendations(uid: kUid, categoryLevelNames: ["men","Tops","Performance Dress Shirts","Extra Slim Shirts"], version: .Version2)
-        
+        let query = RecommendationsV2(pageType: .Category, uid: kUid, categoryLevelNames: ["men","Tops","Performance Dress Shirts","Extra Slim Shirts"])
+
         client?.recommend(recommendationQuery: query, completion: { (response, httpResponse, err) in
             guard let response = httpResponse as? HTTPURLResponse else {
                 XCTFail()
@@ -89,8 +88,8 @@ class RecsVersion2Tests: XCTestCase {
     func testBrandRecommendations() {
         let expect = expectation(description: "Brand Page Recommendation API Call")
         
-        let query = BrandTopSellersRecomendations(uid: kUid, brandName: "brand", version: .Version2)
-        
+        let query = RecommendationsV2(pageType: .Brand, uid: kUid, brand: "brand")
+
         client?.recommend(recommendationQuery: query, completion: { (response, httpResponse, err) in
             guard let response = httpResponse as? HTTPURLResponse else {
                 XCTFail()
@@ -114,9 +113,9 @@ class RecsVersion2Tests: XCTestCase {
     func testPDPRecommendations() {
         let expect = expectation(description: "PDP Page Recommendation API Call")
         let kProductId = "8847330"
-
-        let query = PDPTopSellersRecomendations(uid: kUid, productID: kProductId, version: .Version2)
         
+        let query = RecommendationsV2(pageType: .Pdp, uid: kUid, id: kProductId)
+
         client?.recommend(recommendationQuery: query, completion: { (response, httpResponse, err) in
             guard let response = httpResponse as? HTTPURLResponse else {
                 XCTFail()
@@ -140,8 +139,8 @@ class RecsVersion2Tests: XCTestCase {
     func testCartRecommendations() {
         let expect = expectation(description: "Cart Page Recommendation API Call")
 
-        let query = CartRecomendations(uid: kUid, version: .Version2)
-        
+        let query = RecommendationsV2(pageType: .Cart, uid: kUid)
+
         client?.recommend(recommendationQuery: query, completion: { (response, httpResponse, err) in
             guard let response = httpResponse as? HTTPURLResponse else {
                 XCTFail()
@@ -165,8 +164,8 @@ class RecsVersion2Tests: XCTestCase {
     func testRecommendationsWithWidget() {
         let expect = expectation(description: "Home Page Recommendation with Widget API Call")
         
-        let query = HomePageTopSellersRecomendations(uid: kUid, ip: "12.23.122.1", widget: .Widget1, version: .Version2)
-        
+        let query = RecommendationsV2(pageType: .Home, uid: kUid, ip: "12.23.122.1", widget: .Widget1)
+                
         client?.recommend(recommendationQuery: query, completion: { (response, httpResponse, err) in
             guard let response = httpResponse as? HTTPURLResponse else {
                 XCTFail()

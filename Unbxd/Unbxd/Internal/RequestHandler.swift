@@ -120,7 +120,14 @@ class RequestHandler {
     
     internal func recommend(query:RecommendationQuery, completion: @escaping CompletionHandler) {
         
-        let requestBuilder = RecommendationRequestBuilder()
+        let requestBuilder: RequestBuilderProtocol
+        
+        if (query.version == .Version2) {
+            requestBuilder = RecommendationRequestBuilderV2()
+        }
+        else {
+            requestBuilder = RecommendationRequestBuilder()
+        }
         
         if let urlString = requestBuilder.parse(query: query) {
             let requestInfo = RequestInfo(urlString: urlString, auth: false)
