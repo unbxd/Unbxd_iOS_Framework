@@ -31,6 +31,9 @@ class AnalyticsRequestBuilder: RequestBuilder {
     let kAutoSuggesPrankFieldLabel = "\"unbxdprank\":"
     let kAutoSuggestInternalQueryLabel = "\"internal_query\":"
     let kAutoSuggestBoxTypeLabel = "\"box_type\":"
+    let kExperiencePageType = "\"experience_pagetype\":"
+    let kExperienceWidgetType = "\"experience_widget\":"
+    let kIdentifier = "\"identifier\":"
     let kAutoSuggestPidsLabel = "\"pids_list\":"
     let kAnalyticePageURLLabel = "\"page_type\":\"URL\""
     let kAnalyticsDwellTimeLabel = "\"dwellTime\":"
@@ -93,6 +96,25 @@ class AnalyticsRequestBuilder: RequestBuilder {
                     dataComponents.append("\(kAutoSuggestBoxTypeLabel)\"\(boxType)\"")
                 }
                 
+                
+            }
+            case let productClickInfo as ProductClickAnalyticsV2 : do {
+                
+                if let productId = productClickInfo.pID {
+                    dataComponents.append("\(kAnalyticsPIDLabel)\"\(productId)\"")
+                }
+                
+                if let query = productClickInfo.query {
+                    dataComponents.append("\(kAnalyticsQueryLabel)\"\(query)\"")
+                }
+                
+                if let pageType = productClickInfo.pageType {
+                    dataComponents.append("\(kExperiencePageType)\"\(pageType)\"")
+                }
+                
+                if let widget = productClickInfo.widget {
+                    dataComponents.append("\(kExperienceWidgetType)\"\(widget.rawValue)\"")
+                }
                 
             }
             case let addToCartInfo as ProductAddToCartAnalytics : do {                
@@ -207,8 +229,30 @@ class AnalyticsRequestBuilder: RequestBuilder {
                 }
                 
                 dataComponents.append("\(kAutoSuggestPidsLabel)[\(pidsStr)]")
+            }
+            case let recommendationInfo as RecommendationWidgetAnalyticsV2 : do {
                 
+                dataComponents.append("\(kExperiencePageType)\"\(recommendationInfo.pageType.rawValue)\"")
                 
+                if let widget = recommendationInfo.widget {
+                    dataComponents.append("\(kExperienceWidgetType)\"\(widget.rawValue)\"")
+                }
+                
+                if let id = recommendationInfo.identifier {
+                    dataComponents.append("\(kIdentifier)\"\(id)\"")
+                }
+                
+                var pidsStr = ""
+                var pidArr = Array<String>()
+                
+                for pid in recommendationInfo.pids! {
+                    pidArr.append("\"\(pid)\"")
+                }
+                if pidArr.count > 0 {
+                    pidsStr = pidsStr + "\(pidArr.joined(separator: ","))"
+                }
+                
+                dataComponents.append("\(kAutoSuggestPidsLabel)[\(pidsStr)]")
             }
             case let searchImpressionInfo as SearchImpressionAnalytics : do {
                 

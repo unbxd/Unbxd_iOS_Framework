@@ -37,7 +37,7 @@ public enum DocType: String {
 }
 
 public enum AnalyticsActionType: String {
-    case None = "", Visitor = "visitor", SearchHit = "search", CategoryPageHit = "categoryPage", ProductClick = "click", AddToCart = "cart", Order = "order", ProductPageView = "product_view", CartRemoval = "cartRemoval", RecommendationWidgetImpression = "impression", SearchImpression = "search_impression", CategoryPageImpression = "browse_impression", Dwelltime = "dwellTime", Facets = "facets"
+    case None = "", Visitor = "visitor", SearchHit = "search", CategoryPageHit = "categoryPage", ProductClick = "click", AddToCart = "cart", Order = "order", ProductPageView = "product_view", CartRemoval = "cartRemoval", RecommendationWidgetImpression = "EXPERIENCE_IMPRESSION", SearchImpression = "search_impression", CategoryPageImpression = "browse_impression", Dwelltime = "dwellTime", Facets = "facets"
     
 }
 
@@ -79,7 +79,8 @@ public enum PageType: String {
 }
 
 public enum RecsV2PageType: String {
-    case Home = "HOME",
+    case NONE = "",
+         Home = "HOME",
          Category = "CATEGORY",
          Brand = "BRAND",
          Pdp = "PRODUCT",

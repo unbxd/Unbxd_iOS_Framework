@@ -13,6 +13,8 @@ class RecsVersion2Tests: XCTestCase {
     var client: Client?
 
     let kUid = "uid-1527147976993-16311"
+    let userId = TestClient.shared.client.userId()
+    let requestId = "3d3d5ab5-33e6-4706-b86a-dcd233889d0d-demo-unbxd700181503576558"
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -182,6 +184,48 @@ class RecsVersion2Tests: XCTestCase {
         waitForExpectations(timeout: 10) { (error:Error?) in
             if let err = error {
                 XCTFail(" Widget Home Page Recommendation Api Expecrtation failed \(err)")
+            }
+        }
+    }
+    
+    func testRecommendationAnalyticsV2() {
+        let expect = expectation(description: "Analytics API Call")
+        
+        let recommendationAnalytics = RecommendationWidgetAnalyticsV2(uid: userId.id, visitType: userId.visitType, requestId: requestId, pageType: .Home, widget: .Widget1, productIds: ["1692741-1758","01692015-285","1692908-480"])
+
+        client?.track(analyticsDetails: recommendationAnalytics, completion: { (response, httpResponse, err) in
+            if (err == nil) {
+                expect.fulfill()
+            }
+            else {
+                XCTFail()
+            }
+        })
+        
+        waitForExpectations(timeout: 5) { (error:Error?) in
+            if let err = error {
+                XCTFail("Api Expecrtation failed \(err)")
+            }
+        }
+    }
+    
+    func testProductClickAnalyticsV2() {
+        let expect = expectation(description: "Analytics API Call")
+        
+        let productClickAnalyticsV2 = ProductClickAnalyticsV2(uid: userId.id, visitType: userId.visitType, requestId: requestId, pID: "2301609", query: "Socks", pageId: "Order", pageType: .Home)
+                
+        client?.track(analyticsDetails: productClickAnalyticsV2, completion: { (response, httpResponse, err) in
+            if response != nil {
+                expect.fulfill()
+            }
+            else {
+                XCTFail()
+            }
+        })
+        
+        waitForExpectations(timeout: 5) { (error:Error?) in
+            if let err = error {
+                XCTFail("Api Expecrtation failed \(err)")
             }
         }
     }

@@ -66,6 +66,23 @@ public class ProductClickAnalytics: AnalyticsAbstract {
     }
 }
 
+public class ProductClickAnalyticsV2: AnalyticsAbstract {
+    var pID: String?
+    var query: String?
+    var page: String?
+    var pageType: RecsV2PageType?
+    var widget: Widget?
+    public init(uid:String, visitType: String, requestId: String, pID: String, query: String? = nil, pageId: String? = nil, pageType: RecsV2PageType? = nil, widget: Widget? = nil){
+        self.pageType = pageType
+        self.widget = widget
+        super.init(uid: uid, visitType: visitType, requestId: requestId)
+        self.actionType = .ProductClick
+        self.pID = pID
+        self.query = query
+        self.page = pageId
+    }
+}
+
 public class ProductAddToCartAnalytics: AnalyticsAbstract {
     var productId: String?
     var variantId: String?
@@ -146,6 +163,21 @@ public class RecommendationWidgetAnalytics: AnalyticsAbstract {
         self.actionType = .RecommendationWidgetImpression
         self.recommendationType = recommendationType
         self.pids = productIds
+    }
+}
+
+public class RecommendationWidgetAnalyticsV2: AnalyticsAbstract {
+    var pageType: RecsV2PageType
+    var widget: Widget?
+    var identifier: String?
+    var pids: Array<String>?
+    public init(uid:String, visitType: String, requestId: String, pageType: RecsV2PageType, widget: Widget? = nil, identifier: String? = nil, productIds: Array<String>? = nil) {
+        self.pageType = pageType
+        self.widget = widget
+        self.identifier = identifier
+        self.pids = productIds
+        super.init(uid: uid, visitType: visitType, requestId: requestId)
+        self.actionType = .RecommendationWidgetImpression
     }
 }
 
