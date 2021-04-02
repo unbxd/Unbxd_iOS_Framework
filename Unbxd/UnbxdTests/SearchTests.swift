@@ -287,4 +287,26 @@ class SearchTests: XCTestCase {
             }
         }
     }
+    
+    func testFacetWithMultiselect() {
+        let expect = expectation(description: "Search API Call")
+
+        let query = SearchQuery(key: "Oil", variant: Variant(has: true, count: 1), facet: .MultiSelect, filter: NameFilter(field: "brand_uFilter", value: "Dove"), multipleFilter: MultipleNameFilter(filters: [NameFilter(field: "brand_uFilter", value: "Dove"), NameFilterRange(field: "vendor37Availability", lower: "1", upper: "NaN")], operatorType: .AND))
+        
+        client?.search(query: query) { (response, httpResponse, err) in
+            if let json = response {
+                print("TestSearchWithFacet JSON: \(json)")
+                expect.fulfill()
+            }
+            else {
+                XCTFail()
+            }
+        }
+        
+        waitForExpectations(timeout: 5) { (error:Error?) in
+            if let err = error {
+                XCTFail("Api Expecrtation failed \(err)")
+            }
+        }
+    }
 }

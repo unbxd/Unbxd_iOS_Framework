@@ -115,28 +115,43 @@ class SearchRequestBuilder: RequestBuilder, RequestBuilderProtocol {
             if let mFilter = searchQuery.multipleFilter {
                 var filterStr = ""
                 if mFilter.operatorType == .AND {
-                    for case let filter as TextFilter in mFilter.filters {
-                        if filter is IdFilter {
-                            filterStr = filterStr + "\(kIdFilterLabel)\(filter.field!):\"\(filter.value!)\""
+                    for case let filter in mFilter.filters {
+                        if let textFilter = filter as? TextFilter {
+                            if textFilter is IdFilter {
+                                filterStr = filterStr + "\(kIdFilterLabel)\(textFilter.field!):\"\(textFilter.value!)\""
+                            }
+                            else if textFilter is NameFilter {
+                                filterStr = filterStr + "\(kNameFilterLabel)\(textFilter.field!):\"\(textFilter.value!)\""
+                            }
                         }
-                        else if filter is NameFilter {
-                            filterStr = filterStr + "\(kNameFilterLabel)\(filter.field!):\"\(filter.value!)\""
+                        else if let rangeFilter = filter as? FilterRangeAbstract {
+                            if rangeFilter is NameFilterRange {
+                                filterStr = filterStr + "\(kNameFilterLabel)\(rangeFilter.field!):[\(rangeFilter.lowerRange!) TO \(rangeFilter.upperRange!)]"
+                            }
+                            else if rangeFilter is IdFilterRange {
+                                filterStr = filterStr + "\(kIdFilterLabel)\(rangeFilter.field!):[\(rangeFilter.lowerRange!) TO \(rangeFilter.upperRange!)]"
+                            }
                         }
                     }
                     urlStr = urlStr! + "\(filterStr)"
                 }
                 else if mFilter.operatorType == .OR {
                     var fields = Array<String>()
-                    for case let filter as TextFilter in mFilter.filters {
-                        let fieldStr = "\(filter.field!):\"\(filter.value!)\""
-                        fields.append(fieldStr)
+                    for case let filter in mFilter.filters {
+                        if let textFiler = filter as? TextFilter {
+                            let fieldStr = "\(textFiler.field!):\"\(textFiler.value!)\""
+                            fields.append(fieldStr)
+                        }
+                        else if let rangeFilter = filter as? FilterRangeAbstract {
+                            let fieldStr = "[\(rangeFilter.lowerRange!) TO \(rangeFilter.upperRange!)"
+                            fields.append(fieldStr)
+                        }
                     }
                     if mFilter is MultipleIdFilter {
                         urlStr = urlStr! + "\(kIdFilterLabel)(\(fields.joined(separator: " OR ")))"
                     }
                     else if mFilter is MultipleNameFilter {
                         urlStr = urlStr! + "\(kNameFilterLabel)(\(fields.joined(separator: " OR ")))"
-
                     }
                 }
             }
