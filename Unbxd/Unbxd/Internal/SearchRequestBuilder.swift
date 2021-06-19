@@ -143,7 +143,7 @@ class SearchRequestBuilder: RequestBuilder, RequestBuilderProtocol {
                             fields.append(fieldStr)
                         }
                         else if let rangeFilter = filter as? FilterRangeAbstract {
-                            let fieldStr = "[\(rangeFilter.lowerRange!) TO \(rangeFilter.upperRange!)"
+                            let fieldStr = "[\(rangeFilter.lowerRange!) TO \(rangeFilter.upperRange!)]"
                             fields.append(fieldStr)
                         }
                     }

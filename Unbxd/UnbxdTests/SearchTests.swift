@@ -235,19 +235,14 @@ class SearchTests: XCTestCase {
         }
     }
     
-    func testSearchWithMultipleNameFilter() {
+    func testSearchWithMultipleNameFilter2() {
         let expect = expectation(description: "Search API Call")
         
-        let rangeFilter = NameFilterRange(field: "price", lower: "60.0", upper: "160.0")
-        
-        //let query = SearchQuery(key: "Shirt", facet: .MultiSelect, filter: rangeFilter)
+        let nameFilter1 = NameFilter(field: "brand_uFilter", value: "Dove")
+        let nameFilter2 = NameFilter(field: "brand_uFilter", value: "Seda")
+        let multipleNameFilter = MultipleNameFilter(filters: [nameFilter1, nameFilter2], operatorType: .OR)
 
-        
-        let nameFilter1 = NameFilter(field: "collar_uFilter", value: "Point")
-        let nameFilter2 = NameFilter(field: "type_uFilter", value: "Casual Shirt")
-        let multipleFilters = MultipleNameFilter(filters: [nameFilter1, nameFilter2], operatorType: .AND)
-
-        let query = SearchQuery(key: "Shirt", facet: .MultiSelect, filter: rangeFilter, multipleFilter: multipleFilters)
+        let query = SearchQuery(key: "Oil", facet: .MultiSelect, multipleFilter: multipleNameFilter)
         
         client?.search(query: query) { (response, httpResponse, err) in
             if let json = response {
@@ -291,7 +286,7 @@ class SearchTests: XCTestCase {
     func testFacetWithMultiselect() {
         let expect = expectation(description: "Search API Call")
 
-        let query = SearchQuery(key: "Oil", variant: Variant(has: true, count: 1), facet: .MultiSelect, filter: NameFilter(field: "brand_uFilter", value: "Dove"), multipleFilter: MultipleNameFilter(filters: [NameFilter(field: "brand_uFilter", value: "Dove"), NameFilterRange(field: "vendor37Availability", lower: "1", upper: "NaN")], operatorType: .AND))
+        let query = SearchQuery(key: "Oil", variant: Variant(has: true, count: 1), facet: .MultiSelect, multipleFilter: MultipleNameFilter(filters: [NameFilter(field: "brand_uFilter", value: "Dove"), NameFilterRange(field: "vendor37Availability", lower: "1", upper: "NaN")], operatorType: .AND))
         
         client?.search(query: query) { (response, httpResponse, err) in
             if let json = response {
@@ -304,6 +299,66 @@ class SearchTests: XCTestCase {
         }
         
         waitForExpectations(timeout: 5) { (error:Error?) in
+            if let err = error {
+                XCTFail("Api Expecrtation failed \(err)")
+            }
+        }
+    }
+    
+    func testSearchWithMultipleNameFilter() {
+        let expect = expectation(description: "Search API Call")
+        
+        let rangeFilter = NameFilterRange(field: "price", lower: "60.0", upper: "160.0")
+        
+        //let query = SearchQuery(key: "Shirt", facet: .MultiSelect, filter: rangeFilter)
+
+        
+        let nameFilter1 = NameFilter(field: "collar_uFilter", value: "Point")
+        let nameFilter2 = NameFilter(field: "type_uFilter", value: "Casual Shirt")
+        let multipleFilters = MultipleNameFilter(filters: [nameFilter1, nameFilter2], operatorType: .AND)
+
+        let query = SearchQuery(key: "Shirt", facet: .MultiSelect, filter: rangeFilter, multipleFilter: multipleFilters)
+        
+        client?.search(query: query) { (response, httpResponse, err) in
+            if let json = response {
+                print("TestSearchWithNameFilter JSON: \(json)")
+                expect.fulfill()
+            }
+            else {
+                XCTFail()
+            }
+        }
+        
+        waitForExpectations(timeout: 10) { (error:Error?) in
+            if let err = error {
+                XCTFail("Api Expecrtation failed \(err)")
+            }
+        }
+    }
+    
+    func testSearchWithMultipleNameFilter3() {
+        let expect = expectation(description: "Search API Call")
+    
+        
+//        let nameFilter1 = NameFilter(field: "categoryPath2_uFilter", value: "Carnes")
+//        let nameFilter2 = NameFilter(field: "categoryPath2_uFilter", value: "Aves e Peixes")
+//        let multipleFilters = MultipleNameFilter(filters: [nameFilter1, nameFilter2], operatorType: .AND)
+        
+        let nameFilter = NameFilter(field: "categoryPath2_uFilter", value: "\"Carnes, Aves e Peixes\"")
+
+        let query = SearchQuery(key: "Oil", facet: .MultiSelect, filter: nameFilter)
+        
+        client?.search(query: query) { (response, httpResponse, err) in
+            if let json = response {
+                print("TestSearchWithNameFilter JSON: \(json)")
+                expect.fulfill()
+            }
+            else {
+                XCTFail()
+            }
+        }
+        
+        waitForExpectations(timeout: 10) { (error:Error?) in
             if let err = error {
                 XCTFail("Api Expecrtation failed \(err)")
             }
