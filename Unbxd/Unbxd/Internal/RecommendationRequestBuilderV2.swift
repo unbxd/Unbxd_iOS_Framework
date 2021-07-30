@@ -32,6 +32,17 @@ class RecommendationRequestBuilderV2: RequestBuilder, RequestBuilderProtocol {
             }.joined(separator: "&"))
         }
         
+        if let prod_ids = recommedationInfo.pids {
+            urlStr?.append("&")
+            urlStr?.append(prod_ids.enumerated().map { (index, prod_id) in
+                return "id=\(prod_id)"
+            }.joined(separator: "&"))
+        }
+        
+        if let rfields = recommedationInfo.fields {
+            urlStr = urlStr! + "\(kFieldsLabel)\(rfields.joined(separator: ","))"
+        }
+        
         if let pid = recommedationInfo.id {
             urlStr?.append("\(kProductLabel)\(pid)")
         }

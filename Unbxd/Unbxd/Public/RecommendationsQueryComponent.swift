@@ -126,19 +126,23 @@ public class CompleteTheLookRecomendations: RecommendationQuery {
         super.init(uid: uid, type: .CompleteTheLook, region: region, currency: currency, format: format)
     }
 }
-
+// Adding multiple product IDS array to recommendation
 public class RecommendationsV2: RecommendationQuery {
     var pageType: RecsV2PageType
     var widget: Widget
     var id: String?
     var brand: String?
+    var pids: [String]?
+    var fields: [String]?
     var categoryLevelNames: [String]?
 
-    public init(pageType: RecsV2PageType, uid: String, ip: String? = nil, widget: Widget = .None, id: String? = nil, brand: String? = nil, categoryLevelNames: [String]? = nil) {
+    public init(pageType: RecsV2PageType, uid: String, ip: String? = nil, widget: Widget = .None, id: String? = nil, brand: String? = nil, pids: [String]? = nil, fields: [String]? = nil, categoryLevelNames: [String]? = nil) {
         self.pageType = pageType
         self.widget = widget
         self.id = id
         self.brand = brand
+        self.pids = pids
+        self.fields = fields
         self.categoryLevelNames = categoryLevelNames
         super.init(uid: uid, type: .None, version: .Version2)
     }
