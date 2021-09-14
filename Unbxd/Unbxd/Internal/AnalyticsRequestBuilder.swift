@@ -333,7 +333,7 @@ class AnalyticsRequestBuilder: RequestBuilder {
                     fieldsStr = fieldsStr + "\(fieldsArr.joined(separator: ","))"
                 }
                 
-                dataComponents.append("\(kAnalyticsFacetsLabel)[\(fieldsStr)]")
+                dataComponents.append("\(kAnalyticsFacetsLabel){\(fieldsStr)}")
             }
             default:
                 Logger.logError("Unknown Analtytics type")

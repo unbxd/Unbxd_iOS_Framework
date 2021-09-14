@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Unbxd
+import Unbxd
 
 class AutoSuggestTests: XCTestCase {
     var client: Client?

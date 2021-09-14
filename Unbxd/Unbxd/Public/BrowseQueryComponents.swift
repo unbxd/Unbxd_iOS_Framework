@@ -11,7 +11,7 @@ import Foundation
 public class BrowseQuery: QueryAbstract {
     public var browseCategoryQuery: CategoryAbstract?
     public var pageType: PageType?
-    public init(categoryQuery: CategoryAbstract, pageType: PageType? = nil, rows: Int? = nil,  start: Int? = nil, format: ResponseFormat = .JSON, spellCheck: Bool = false, analytics: Bool = false, statsField: String? = nil, variant: Variant? = nil, fields:Array<String>? = nil, facet: Facet? = nil, filter: FilterAbstract? = nil, categoryFilter: CategoryFilterAbstract? = nil, multipleFilter: MultipleFilterAbstract? = nil, fieldsSortOrder: Array<FieldSortOrder>? = nil, personalization: Bool? = nil) {
+    public init(categoryQuery: CategoryAbstract, pageType: PageType? = nil, rows: Int? = nil,  start: Int? = nil, format: ResponseFormat = .JSON, spellCheck: Bool = false, analytics: Bool = false, statsField: String? = nil, variant: Variant? = nil, fields:Array<String>? = nil, facet: Facet? = nil, filter: FilterAbstract? = nil, categoryFilter: CategoryFilterAbstract? = nil, multipleFilter: MultipleFilterAbstract? = nil,  multipleFilterOR: MultipleFilterAbstractOR? = nil,multipleFilterAND: MultipleFilterAbstractAND? = nil, fieldsSortOrder: Array<FieldSortOrder>? = nil, personalization: Bool? = nil) {
         super.init()
         self.browseCategoryQuery = categoryQuery
         self.pageType = pageType
@@ -27,6 +27,8 @@ public class BrowseQuery: QueryAbstract {
         self.filter = filter
         self.categoryFilter = categoryFilter
         self.multipleFilter = multipleFilter
+        self.multipleFilterOR = multipleFilterOR
+        self.multipleFilterAND = multipleFilterAND
         self.fieldsSortOrder = fieldsSortOrder
         self.personalization = personalization
     }

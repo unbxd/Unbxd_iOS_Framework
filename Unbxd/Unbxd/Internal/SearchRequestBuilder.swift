@@ -156,6 +156,60 @@ class SearchRequestBuilder: RequestBuilder, RequestBuilderProtocol {
                 }
             }
             
+            
+            // MARK: Adding Multiple Filters OR
+            if let mFilter = searchQuery.multipleFilterOR {
+                for case let filterField in mFilter.filters {
+                    if filterField.operatorType == .OR {
+                        var fields = Array<String>()
+                        for case let filter in filterField.filters {
+                            if let textFiler = filter as? TextFilter {
+                                let fieldStr = "\(textFiler.field!):\"\(textFiler.value!)\""
+                                fields.append(fieldStr)
+                            }
+                            else if let rangeFilter = filter as? FilterRangeAbstract {
+                                let fieldStr = "[\(rangeFilter.lowerRange!) TO \(rangeFilter.upperRange!)]"
+                                fields.append(fieldStr)
+                            }
+                        }
+                        if mFilter is MultipleIdFilterOR {
+                            urlStr = urlStr! + "\(kIdFilterLabel)(\(fields.joined(separator: " OR ")))"
+                        }
+                        else if mFilter is MultipleNameFilterOR {
+                            urlStr = urlStr! + "\(kNameFilterLabel)(\(fields.joined(separator: " OR ")))"
+                        }
+                    }
+                }
+            }
+            
+            // MARK: Adding Multiple Filters AND
+            if let mFilter = searchQuery.multipleFilterAND {
+                var filterStr = ""
+                if mFilter.operatorType == .AND {
+                    for case let filter in mFilter.filters {
+                        if let textFilter = filter as? TextFilter {
+                            if textFilter is IdFilter {
+                                filterStr = filterStr + "\(kIdFilterLabel)\(textFilter.field!):\"\(textFilter.value!)\""
+                            }
+                            else if textFilter is NameFilter {
+                                filterStr = filterStr + "\(kNameFilterLabel)\(textFilter.field!):\"\(textFilter.value!)\""
+                            }
+                        }
+                        else if let rangeFilter = filter as? FilterRangeAbstract {
+                            if rangeFilter is NameFilterRange {
+                                filterStr = filterStr + "\(kNameFilterLabel)\(rangeFilter.field!):[\(rangeFilter.lowerRange!) TO \(rangeFilter.upperRange!)]"
+                            }
+                            else if rangeFilter is IdFilterRange {
+                                filterStr = filterStr + "\(kIdFilterLabel)\(rangeFilter.field!):[\(rangeFilter.lowerRange!) TO \(rangeFilter.upperRange!)]"
+                            }
+                        }
+                    }
+                    urlStr = urlStr! + "\(filterStr)"
+                }
+            }
+            
+            
+            
             // MARK: Adding Sort
             if let sortFields = searchQuery.fieldsSortOrder {
                 var fieldsWithOrder = Array<String>()
@@ -163,7 +217,7 @@ class SearchRequestBuilder: RequestBuilder, RequestBuilderProtocol {
                     let fieldStr = "\(sortField.field!) \(sortField.order.rawValue)"
                     fieldsWithOrder.append(fieldStr)
                 }
-                urlStr = urlStr! + "\(kSortLabel)\(fieldsWithOrder.joined(separator: "&"))"
+                urlStr = urlStr! + "\(kSortLabel)\(fieldsWithOrder.joined(separator: ","))"
             }
             
             if let personalized = searchQuery.personalization {

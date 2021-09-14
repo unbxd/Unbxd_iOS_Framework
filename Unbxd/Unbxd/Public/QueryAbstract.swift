@@ -20,5 +20,7 @@ public class QueryAbstract {
     public var filter: FilterAbstract?
     public var categoryFilter: CategoryFilterAbstract?
     public var multipleFilter: MultipleFilterAbstract?
+    public var multipleFilterAND: MultipleFilterAbstractAND?
+    public var multipleFilterOR: MultipleFilterAbstractOR?
     public var fieldsSortOrder: Array<FieldSortOrder>?
 }

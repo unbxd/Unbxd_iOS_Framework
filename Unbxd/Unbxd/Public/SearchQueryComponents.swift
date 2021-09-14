@@ -11,7 +11,7 @@ import Foundation
 public class SearchQuery: QueryAbstract {    
     public var searchKey: String?
     
-    public init(key: String, rows: Int? = nil,  start: Int? = nil, format: ResponseFormat = .JSON, spellCheck: Bool = false, analytics: Bool = false, statsField: String? = nil, variant: Variant? = nil, fields:Array<String>? = nil, facet: Facet? = nil, filter: FilterAbstract? = nil, categoryFilter: CategoryFilterAbstract? = nil, multipleFilter: MultipleFilterAbstract? = nil, fieldsSortOrder: Array<FieldSortOrder>? = nil, personalization: Bool? = nil) {
+    public init(key: String, rows: Int? = nil,  start: Int? = nil, format: ResponseFormat = .JSON, spellCheck: Bool = false, analytics: Bool = false, statsField: String? = nil, variant: Variant? = nil, fields:Array<String>? = nil, facet: Facet? = nil, filter: FilterAbstract? = nil, categoryFilter: CategoryFilterAbstract? = nil, multipleFilter: MultipleFilterAbstract? = nil, multipleFilterOR: MultipleFilterAbstractOR? = nil,multipleFilterAND: MultipleFilterAbstractAND? = nil, fieldsSortOrder: Array<FieldSortOrder>? = nil, personalization: Bool? = nil) {
         super.init()
         self.searchKey = key
         
@@ -27,6 +27,8 @@ public class SearchQuery: QueryAbstract {
         self.filter = filter
         self.categoryFilter = categoryFilter
         self.multipleFilter = multipleFilter
+        self.multipleFilterOR = multipleFilterOR
+        self.multipleFilterAND = multipleFilterAND
         self.fieldsSortOrder = fieldsSortOrder
         self.personalization = personalization
     }
@@ -149,6 +151,61 @@ public class MultipleIdFilter: MultipleFilterAbstract {
 public class MultipleNameFilter: MultipleFilterAbstract {
     public override init(filters: Array<FilterAbstract>, operatorType: FilterOperatorType) {
         super.init(filters: filters, operatorType: operatorType)
+        self.type = .TypeName
+    }
+}
+
+
+// MARK: *****MultipleFilterAbstract AND*****
+
+public class MultipleFilterAbstractAND {
+    var operatorType = FilterOperatorType.None
+    var type = ReferenceType.None
+    var filters = Array<FilterAbstract>()
+    
+    init(filters: Array<FilterAbstract>, operatorType: FilterOperatorType) {
+        self.filters = filters
+        self.operatorType = operatorType
+    }
+}
+
+public class MultipleIdFilterAND: MultipleFilterAbstractAND {
+    public override init(filters: Array<FilterAbstract>, operatorType: FilterOperatorType) {
+        super.init(filters: filters, operatorType: operatorType)
+        self.type = .TypeId
+    }
+}
+
+public class MultipleNameFilterAND: MultipleFilterAbstractAND {
+    public override init(filters: Array<FilterAbstract>, operatorType: FilterOperatorType) {
+        super.init(filters: filters, operatorType: operatorType)
+        self.type = .TypeName
+    }
+}
+
+
+// MARK: *****MultipleFilterAbstract for OR *****
+
+
+public class MultipleFilterAbstractOR {
+    var type = ReferenceType.None
+    var filters = Array<MultipleFilterAbstract>()
+    
+    init(filters: Array<MultipleFilterAbstract>) {
+        self.filters = filters
+    }
+}
+
+public class MultipleIdFilterOR: MultipleFilterAbstractOR {
+    public override init(filters: Array<MultipleFilterAbstract>) {
+        super.init(filters: filters)
+        self.type = .TypeId
+    }
+}
+
+public class MultipleNameFilterOR: MultipleFilterAbstractOR {
+    public override init(filters: Array<MultipleFilterAbstract>) {
+        super.init(filters: filters)
         self.type = .TypeName
     }
 }

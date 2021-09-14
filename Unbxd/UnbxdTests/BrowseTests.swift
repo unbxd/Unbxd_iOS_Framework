@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Unbxd
+import Unbxd
 
 class BrowseTests: XCTestCase {
     
