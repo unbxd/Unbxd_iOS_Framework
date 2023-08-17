@@ -17,6 +17,7 @@ class RequestHandler {
     private init() {
         queue = OperationQueue()
         queue.maxConcurrentOperationCount = 3
+        queue.qualityOfService = .background
         visitorEventHandler = VisitorEventHandler()
     }
     

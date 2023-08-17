@@ -96,26 +96,27 @@ class NetworkOperation: AsynchronousOperation {
     override func main() {
         Logger.logDebug("Requesting: \(urlString)")
         
-        var request = URLRequest(url: URL(string: urlString)!)
+        guard let url = URL(string: urlString) else {
+            return
+        }
+        var request = URLRequest(url: url)
         request.httpMethod = httpMethod.rawValue
-    
-        let session = URLSession(configuration: .ephemeral, delegate: nil, delegateQueue: .main)
-        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
-            
-            var resultJson = Dictionary<String, Any>()
 
-            do {
-                resultJson = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any]
-            } catch let error as NSError {
-                Logger.logError(error.localizedDescription)
+        let session = URLSession(configuration: .ephemeral, delegate: nil, delegateQueue: .current)
+        let task = session.dataTask(with: request,
+                                    completionHandler: { [weak self] (data: Data?, response: URLResponse?, error: Error?) -> Void in
+            guard let data = data,
+                  let resultJson = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+                if let error {
+                    Logger.logError(error.localizedDescription)
+                }
+                return
             }
             
             Logger.logDebug("RESPONSE: \(String(describing: response))")
-
-            self.networkOperationCompletionHandler?(resultJson, response, error)
-            self.networkOperationCompletionHandler = nil
-            
-            self.completeOperation()
+            self?.networkOperationCompletionHandler?(resultJson, response, error)
+            self?.networkOperationCompletionHandler = nil
+            self?.completeOperation()
         })
         
         task.resume()
